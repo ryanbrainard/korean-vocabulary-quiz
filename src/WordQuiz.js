@@ -31,7 +31,7 @@ class WordQuiz extends Component {
       })
 
     this.state = {
-      totalCount: uniqueWords.length,
+      totalCount: words.all.count,
       words: sample,
     };
   }
@@ -42,7 +42,7 @@ class WordQuiz extends Component {
     const knowCount = words.filter((word) => word.know).length
     const knowPerc = knowCount / words.length
     const knowWordsText = knowPerc === 1 ?
-      `Wow, you know them all! With some super fuzzy, not-so-scientific logic, that means you know at least all ${knowCount} words on the list, but probably at lot more.` :
+      `Wow, you know them all! With some super fuzzy, not-so-scientific logic, that means you know at least all ${totalCount} words on the list, but probably at lot more.` :
       `With some super fuzzy, not-so-scientific logic, that means you know approximately ${Math.floor(totalCount * knowPerc)} Korean words.`
 
     return (
