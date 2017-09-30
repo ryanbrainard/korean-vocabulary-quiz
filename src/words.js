@@ -1,4 +1,15 @@
-순위	단어	품사	풀이	등급
+import tsv from 'tsv';
+
+const words = {
+  all: [],
+  groups: {
+    A: [],
+    B: [],
+    C: [],
+  },
+}
+
+tsv.parse(`
 1195	가게	명		A
 898	가격03	명	價格	B
 2986	가구03	명	家口	C
@@ -5964,3 +5975,28 @@
 3305	힘쓰다	동		C
 9013	힘없이	부		C
 3846	힘차다	형		C
+`).forEach((row) => {
+  const word = {
+    rank:    row[0],
+    term:    row[1],
+    pos:     row[2],
+    explain: row[3],
+    group:   row[4],
+  }
+
+  // TODO: add group stuff later
+  // switch (word.group) {
+  //   case 'A':
+  //   case 'B':
+  //   case 'C':
+  //     words.groups[word.group].push(word);
+  //     break;
+  //   default:
+  //     console.warn(`error=unknown_group rank=${word.rank} term=${word.term}`);
+  //     return;
+  // }
+
+  words.all.push(word)
+})
+
+export const WORDS = words;
