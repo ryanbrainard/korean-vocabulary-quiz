@@ -24,7 +24,7 @@ class App extends Component {
         <Grid>
           <WordQuiz
             words={WORDS}
-            sampleSize={100}
+            sampleSize={50}
           />
         </Grid>
       </div>
