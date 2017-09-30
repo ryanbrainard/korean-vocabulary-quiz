@@ -6,44 +6,43 @@ class WordQuiz extends Component {
   constructor(props, context) {
     super(props, context);
 
+    this.state = {
+      sample: this.sampleWords(),
+    };
+  }
+
+  sampleWords() {
     const { words, sampleSize } = this.props
 
-    // filter out unranked and homophones
-    const uniqueWords = words
+    return words
       .all
       .filter((word) => {
         return /^\d+$/.test(word.rank) && !(/\d/.test(word.term))
       })
-
-    const sample = uniqueWords
       .sort(() => .5 - Math.random())
       .slice(0, sampleSize)
       .map((word, index) => {
         word.setKnow = (value) => {
-          const words = this.state.words
-          words[index].know = value
-          this.setState({
-            words: words
-          })
+          const sample = this.state.sample
+          sample[index].know = value
+          this.setState({ words })
         }
 
         return word
       })
+  }
 
-    this.state = {
-      totalCount: words.all.count,
-      words: sample,
-    };
+  calcKnowPerc() {
+    const { sample } = this.state
+
+    return sample.filter((word) => word.know).length / sample.length
   }
 
   render() {
-    const { totalCount, words } = this.state
+    const { sample } = this.state
 
-    const knowCount = words.filter((word) => word.know).length
-    const knowPerc = knowCount / words.length
-    const knowWordsText = knowPerc === 1 ?
-      `Wow, you know them all! With some super fuzzy, not-so-scientific logic, that means you know at least all ${totalCount} words on the list, but probably at lot more.` :
-      `With some super fuzzy, not-so-scientific logic, that means you know approximately ${Math.floor(totalCount * knowPerc)} Korean words.`
+    const totalCount = this.props.words.all.length
+    const knowPerc = this.calcKnowPerc()
 
     return (
       <div>
@@ -59,7 +58,7 @@ class WordQuiz extends Component {
         <Row>
           <Col md={6}>
             <WordTable
-              words={words}
+              words={sample}
             />
           </Col>
         </Row>
@@ -68,7 +67,13 @@ class WordQuiz extends Component {
           <Col md={10}>
             <h3>Results</h3>
             <h1>{Math.floor(knowPerc * 100)}%</h1>
-            <h6>{knowWordsText}</h6>
+            <h6>
+              With some super fuzzy, not-so-scientific logic, that means you know {
+              knowPerc === 1 ?
+                ` at least all ${totalCount} words on the list, but probably at lot more.` :
+                ` approximately ${Math.floor(totalCount * knowPerc)} Korean words.`
+              }
+            </h6>
           </Col>
         </Row>
       </div>
