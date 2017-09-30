@@ -40,10 +40,10 @@ class WordQuiz extends Component {
     const { totalCount, words } = this.state
 
     const knowCount = words.filter((word) => word.know).length
-    const knowPerc = knowCount / words.length * 100
-    const knowWordsText = knowPerc === 100 ?
+    const knowPerc = knowCount / words.length
+    const knowWordsText = knowPerc === 1 ?
       `Wow, you know them all! With some super fuzzy, not-so-scientific logic, that means you know at least all ${knowCount} words on the list, but probably at lot more.` :
-      `With some super fuzzy, not-so-scientific logic, that means you know approximately ${totalCount * knowCount} Korean words.`
+      `With some super fuzzy, not-so-scientific logic, that means you know approximately ${Math.floor(totalCount * knowPerc)} Korean words.`
 
     return (
       <div>
@@ -61,9 +61,13 @@ class WordQuiz extends Component {
             <WordTable
               words={words}
             />
+          </Col>
+        </Row>
 
+        <Row>
+          <Col md={10}>
             <h3>Results</h3>
-            <h1>{knowPerc}%</h1>
+            <h1>{Math.floor(knowPerc * 100)}%</h1>
             <h6>{knowWordsText}</h6>
           </Col>
         </Row>
