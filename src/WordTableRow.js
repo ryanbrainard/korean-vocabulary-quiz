@@ -7,10 +7,13 @@ class WordTableRow extends Component {
   };
 
   render() {
-    const { word } = this.props
+    const { number, word } = this.props
 
     return (
       <tr>
+        <td width="1px">
+          {number}
+        </td>
         <td>
           {
             <a

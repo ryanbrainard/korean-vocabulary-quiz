@@ -10,9 +10,10 @@ class WordTable extends Component {
       <Table striped responsive>
         <tbody>
           {
-            words.map((word) =>
+            words.map((word, index) =>
               <WordTableRow
-                key={word.rank}
+                key={index}
+                number={index+1}
                 word={word}
               />
             )
