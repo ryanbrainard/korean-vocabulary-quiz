@@ -111,14 +111,14 @@ class WordQuiz extends Component {
         </Row>
 
         <Row>
-          <Col xs={11} md={5}>
+          <Col xs={10} sm={8} md={6}>
             <WordTable words={sample}/>
             <hr/>
           </Col>
         </Row>
 
         <Row>
-          <Col xs={10} md={10}>
+          <Col xs={11} md={10}>
             <h3>Results</h3>
 
             <p>
@@ -144,11 +144,13 @@ class WordQuiz extends Component {
               Share your results with a friend!
             </p>
 
-            <div class="a2a_kit a2a_kit_size_24 a2a_default_style">
+            <div className="a2a_kit a2a_kit_size_24 a2a_default_style">
+              {/* eslint-disable */}
               <a className="a2a_button_facebook"></a>
               <a className="a2a_button_twitter"></a>
               <a className="a2a_button_reddit"></a>
               <a className="a2a_dd" href="https://www.addtoany.com/share"></a>
+              {/* eslint-enable */}
             </div>
           </Col>
         </Row>
