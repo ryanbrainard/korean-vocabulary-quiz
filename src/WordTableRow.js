@@ -29,7 +29,7 @@ class WordTableRow extends Component {
               target="_blank"
               title={`Group: ${word.group}`}
             >
-              {word.term}
+              <span className="wordTerm">{word.term}</span>
             </a>
           }
         </td>
