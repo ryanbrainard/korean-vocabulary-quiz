@@ -32,8 +32,8 @@ class WordTableRow extends Component {
             value={word.know}
             onChange={this.onChange}
           >
-            <ToggleButton value={true}>알아요</ToggleButton>
-            <ToggleButton value={false}>몰라요</ToggleButton>
+            <ToggleButton value={true} bsSize="large" bsStyle={word.know === true  ? 'success' : 'default'}>✓</ToggleButton>
+            <ToggleButton value={false} bsSize="large"  bsStyle={word.know === false ? 'danger' : 'default'}>✗</ToggleButton>
           </ToggleButtonGroup>
         </td>
       </tr>
