@@ -10,15 +10,13 @@ class WordQuiz extends Component {
 
   constructor(props, context) {
     super(props, context);
-
+    const { words, sampleSize } = this.props
     this.state = {
-      sample: this.sampleWords(),
+      sample: this.sampleWords(words, sampleSize),
     };
   }
 
-  sampleWords() {
-    const { words, sampleSize } = this.props
-
+  sampleWords(words, sampleSize) {
     return words
       .filter((word) => {
         return /^\d+$/.test(word.rank) && !(/\d/.test(word.term))
@@ -36,9 +34,7 @@ class WordQuiz extends Component {
       })
   }
 
-  calcKnowPerc() {
-    const { sample } = this.state
-
+  calcKnowPerc(sample) {
     return sample.filter((word) => word.know).length / sample.length
   }
 
@@ -46,7 +42,7 @@ class WordQuiz extends Component {
     const { sample } = this.state
 
     const totalCount = this.props.words.length
-    const knowPerc = this.calcKnowPerc()
+    const knowPerc = this.calcKnowPerc(sample)
 
     return (
       <div>
