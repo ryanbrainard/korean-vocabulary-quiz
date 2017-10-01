@@ -20,7 +20,7 @@ class App extends Component {
         <Grid>
           <WordQuiz
             words={WORDS}
-            sampleSize={50}
+            sampleSize={100}
           />
 
           <footer>
