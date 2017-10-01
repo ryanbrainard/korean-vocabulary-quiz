@@ -123,7 +123,7 @@ class WordQuiz extends Component {
           <Col md={10}>
             <h3>Results</h3>
 
-            With some super fuzzy, not-so-scientific logic, that means you know:
+            With some super fuzzy, not-so-scientific logic, that means you know approximately:
             <h1>{results.allKnowCount} words</h1>
 
             <ul>
