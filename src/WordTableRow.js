@@ -40,7 +40,7 @@ class WordTableRow extends Component {
             value={word.know}
             onChange={this.onChange}
           >
-            <ToggleButton value={true} bsSize="large" bsStyle={word.know === true  ? 'success' : 'default'}>✔</ToggleButton>
+            <ToggleButton value={true} bsSize="large" bsStyle={word.know === true  ? 'success' : 'default'}>✓</ToggleButton>
             <ToggleButton value={false} bsSize="large"  bsStyle={word.know === false ? 'danger' : 'default'}>✗</ToggleButton>
           </ToggleButtonGroup>
         </td>
