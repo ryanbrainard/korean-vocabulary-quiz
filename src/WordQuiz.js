@@ -35,9 +35,9 @@ class WordQuiz extends Component {
   }
 
   calcKnowPerc(words, group) {
-    return words.filter((word) => {
-      return word.know && (group === undefined || group === word.group)
-    }).length / words.length
+    const know = words.filter((word) => word.know && (group === undefined || group === word.group)).length
+    const total = (group === undefined ? words : words.filter((word) => word.group === group)).length
+    return know / total
   }
 
   calcCountsByGroup(words) {
@@ -87,7 +87,7 @@ class WordQuiz extends Component {
         <li>
           <strong>Group {group}:</strong>&nbsp;
           {results.allKnowCountByGroup[group]} words =&nbsp;
-          {results.sampleKnowPercByGroup[group]}% of sample *&nbsp;
+          {Math.round(results.sampleKnowPercByGroup[group]*100)}% of sample *&nbsp;
           {results.allCounts[group]} total words
         </li>
       )
