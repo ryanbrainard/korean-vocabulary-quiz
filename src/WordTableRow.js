@@ -18,7 +18,9 @@ class WordTableRow extends Component {
           {
             <a
               href={`http://endic.naver.com/search.nhn?sLn=en&isOnlyViewEE=N&query=${word.term}`}
-              target="naverDict">
+              target="_blank"
+              title={`Group: ${word.group}`}
+            >
               {word.term}
             </a>
           }
