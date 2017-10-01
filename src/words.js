@@ -1,4 +1,5 @@
 import tsv from 'tsv';
+import PropTypes from 'prop-types';
 
 const words = {
   all: [],
@@ -6000,3 +6001,20 @@ tsv.parse(`
 })
 
 export const WORDS = words;
+
+export const wordPropType = PropTypes.shape({
+  rank: PropTypes.any, // TODO: convert to number?
+  term: PropTypes.string,
+  group: PropTypes.oneOf(['A', 'B', 'C']),
+})
+
+export const wordArrayPropType = PropTypes.arrayOf(wordPropType)
+
+export const wordBundlePropType = PropTypes.shape({
+  all: wordArrayPropType,
+  groups: PropTypes.shape({
+    A: wordArrayPropType,
+    B: wordArrayPropType,
+    C: wordArrayPropType,
+  })
+})

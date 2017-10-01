@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
-import { PageHeader, Row, Col } from 'react-bootstrap';
+import {PageHeader, Row, Col} from 'react-bootstrap';
+import {wordBundlePropType} from './words';
 import WordTable from './WordTable'
 
 class WordQuiz extends Component {
+  static propTypes = {
+    words: wordBundlePropType
+  }
+
   constructor(props, context) {
     super(props, context);
 
