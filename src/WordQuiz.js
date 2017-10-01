@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {PageHeader, Row, Col} from 'react-bootstrap';
-import {wordBundlePropType} from './words';
+import {wordsPropType} from './words';
 import WordTable from './WordTable'
 
 class WordQuiz extends Component {
   static propTypes = {
-    words: wordBundlePropType
+    words: wordsPropType
   }
 
   constructor(props, context) {
@@ -20,7 +20,6 @@ class WordQuiz extends Component {
     const { words, sampleSize } = this.props
 
     return words
-      .all
       .filter((word) => {
         return /^\d+$/.test(word.rank) && !(/\d/.test(word.term))
       })
@@ -46,7 +45,7 @@ class WordQuiz extends Component {
   render() {
     const { sample } = this.state
 
-    const totalCount = this.props.words.all.length
+    const totalCount = this.props.words.length
     const knowPerc = this.calcKnowPerc()
 
     return (
