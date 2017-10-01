@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {PageHeader, Row, Col} from 'react-bootstrap';
 import {wordsPropType} from './words';
-import WordTable from './WordTable'
+import WordTable from './WordTable';
 
 class WordQuiz extends Component {
   static propTypes = {

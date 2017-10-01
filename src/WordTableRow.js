@@ -1,7 +1,15 @@
 import React, {Component} from 'react';
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import {wordPropType} from './words';
+
 
 class WordTableRow extends Component {
+  static propTypes = {
+    number: PropTypes.number,
+    word: wordPropType
+  }
+
   onChange = (value) => {
     this.props.word.setKnow(value);
   };

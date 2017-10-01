@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
 import { Table } from 'react-bootstrap';
+import {wordsPropType} from './words';
 import WordTableRow from './WordTableRow'
 
 class WordTable extends Component {
+  static propTypes = {
+    words: wordsPropType
+  }
+
   render() {
     const { words } = this.props
 
