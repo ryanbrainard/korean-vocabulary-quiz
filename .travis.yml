@@ -1,9 +1,19 @@
 language: node_js
 node_js:
-  - 6
+- 6
 cache:
   directories:
-    - node_modules
+  - node_modules
 script:
-  - npm run build
-  - npm test
+- npm run build
+- npm test
+deploy:
+  provider: s3
+  access_key_id: AKIAJ25K6E7EVMGVKR7A
+  secret_access_key:
+    secure: cIEv8Ll7oq4BONONbGf3w8Z7kM4/m9NFt2nuZYT8rystPResv7zAzbICN9iAePxIYwP7kTRiwX37vtPoonR3djLXPmqgZfrXuZ02Gz6hfqf9o7tgU/m2pcOs/6U2zMv3roq8NJCIg0T+f5du7gkYr9jfa3DVNYNXit6YRsuhVfi+OvZMA0ppv5Nr5a19NkL8SeS57+hrJeY+xA3a6nS6ACLa1n+IabyCmK5Ct+3Hh8Ia512Rg9S6B/hxYW3kzLt9gRACArzlEAfbBKTodyl9EhlFlrTt0ugLAZViBoIKFCtQWMql/j717e1HmH8wBHvgUvKQJTkNiJFyMy3wJCg1q5bDnuOUUJin3hPCLzgT7apHInUPbb+IyoWFTLdnMiU5jwAmcWk5Jfwu1g5ujX54app92Kta1HhCJSUAXRC1FX/OE6zunvQCskL6MimbjZQ5pnOSM11R/9Bl6xFz7qcd4cnIjGU3bvQ93cOQiDEw7KxlFbiSwSPslJCsBP+YJOttrSed+9X5GyPrMomRU6bx9PWRUkU6l5qaHdGdegrFMR2D3Xj4Bm8UFC+nTuuVHqxrRbrI3oBa/N0zjtTK113TWbTI7miPPumJxwYm2ev4IeBo/lAazjVujHx1BmFhGnbU+Croz3fr8diimn8WwX9MXh0fB6pRmebF6WFd158mk28=
+  bucket: howmanykoreanwordsdoyouknow.com
+  region: ap-northeast-2
+  skip_cleanup: true
+  acl: public_read
+  local_dir: build
