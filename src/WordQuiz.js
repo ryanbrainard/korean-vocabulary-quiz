@@ -104,7 +104,7 @@ class WordQuiz extends Component {
                 This is a quiz based on a random sample from the <a href="https://ko.wiktionary.org/wiki/%EB%B6%80%EB%A1%9D:%EC%9E%90%EC%A3%BC_%EC%93%B0%EC%9D%B4%EB%8A%94_%ED%95%9C%EA%B5%AD%EC%96%B4_%EB%82%B1%EB%A7%90_5800">list of the most common Korean words</a> published by the <a href="https://www.korean.go.kr/front_eng/main.do">The National Institute of The Korean Language</a>. For each word below, select if you know the word or not. Click on the word to see it in the dictionary to check yourself. See your result at the bottom.
               </p>
               <p>
-                The idea for this site was inspired by <a href="https://redd.it/72wf0s" target="_blank" rel="noopener noreferrer">this Reddit post</a>. Please note that this is mostly just for fun and probably not that accurate, but it should give Korean learners a ballpark figure of how many words they know. The accuracy is probably even less for very advanced learners or native speakers because they are likely to know all the words in this list and then some.
+                The idea for this site was inspired by a <a href="https://redd.it/72wf0s" target="_blank" rel="noopener noreferrer">Reddit post</a>. Please note that this is mostly just for fun and probably not that accurate, but it should give Korean learners a ballpark figure of how many words they know. The accuracy is probably even less for very advanced learners or native speakers because they are likely to know all the words in this list and then some.
               </p>
             </Jumbotron>
           </Col>
