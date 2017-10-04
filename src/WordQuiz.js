@@ -1,44 +1,58 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Jumbotron, Row, Col} from 'react-bootstrap';
+import {Jumbotron, Row, Col, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import {WORDS, wordsPropType} from './words';
 import WordTable from './WordTable';
 
 class WordQuiz extends Component {
   static propTypes = {
     words: wordsPropType,
-    sampleSize: PropTypes.number,
+    defaultSampleSize: PropTypes.number,
+    availableSampleSizes: PropTypes.arrayOf(PropTypes.number),
   }
 
   static defaultProps = {
     words: WORDS,
-    sampleSize: 100,
+    defaultSampleSize: 100,
+    availableSampleSizes: [10, 50, 100, 250, 500, 1000],
   }
 
   constructor(props, context) {
     super(props, context);
-    const {words, sampleSize} = this.props
+    const {words, defaultSampleSize} = this.props
+
+    const candidates = this.prepareWords(words)
+    const sampleSize = defaultSampleSize
+
     this.state = {
-      sample: this.sampleWords(words, sampleSize),
+      candidates,
+      sampleSize,
     };
+
+    this.onSampleSizeChange = this.onSampleSizeChange.bind(this);
   }
 
-  sampleWords(words, sampleSize) {
+  prepareWords(words) {
     return words
       .filter((word) => {
         return /^\d+$/.test(word.rank) && !(/\d/.test(word.term))
       })
       .sort(() => .5 - Math.random())
-      .slice(0, sampleSize)
       .map((word, index) => {
         word.setKnow = (value) => {
-          const sample = this.state.sample
-          sample[index].know = value
+          const candidates = this.state.candidates
+          candidates[index].know = value
           this.setState({words})
         }
 
         return word
       })
+  }
+
+  onSampleSizeChange(e) {
+    this.setState({
+      sampleSize: parseInt(e.target.value, 10)
+    });
   }
 
   calcKnowPerc(words, group) {
@@ -85,8 +99,29 @@ class WordQuiz extends Component {
   }
 
   render() {
-    const {words} = this.props
-    const {sample} = this.state
+    const {words, defaultSampleSize, availableSampleSizes} = this.props
+    const {candidates, sampleSize} = this.state
+    const sample = candidates.slice(0, sampleSize)
+
+    const sampleSizeSelect = (
+      <FormGroup>
+        <ControlLabel>Sample Size</ControlLabel>
+        <FormControl
+          componentClass="select"
+          style={{width: "10em"}}
+          value={sampleSize}
+          onChange={this.onSampleSizeChange}
+        >
+          {
+            availableSampleSizes.map((step) => {
+              return (
+                <option key={step} value={step}>{step}</option>
+              )
+            })
+          }
+        </FormControl>
+      </FormGroup>
+    )
 
     const results = this.calcResults(words, sample)
     const resultBreakdown = (group) => {
@@ -111,7 +146,7 @@ class WordQuiz extends Component {
                 This is a quiz based on a random sample from the <a href="https://ko.wiktionary.org/wiki/%EB%B6%80%EB%A1%9D:%EC%9E%90%EC%A3%BC_%EC%93%B0%EC%9D%B4%EB%8A%94_%ED%95%9C%EA%B5%AD%EC%96%B4_%EB%82%B1%EB%A7%90_5800">list of the most common Korean words</a> published by the <a href="https://www.korean.go.kr/front_eng/main.do">The National Institute of The Korean Language</a>. For each word below, select if you know the word or not. Click on the word to see it in the dictionary to check yourself. See your result at the bottom.
               </p>
               <p>
-                The idea for this site was inspired by a <a href="https://redd.it/72wf0s" target="_blank" rel="noopener noreferrer">Reddit post</a>. Please note that this is mostly just for fun and probably not that accurate, but it should give Korean learners a ballpark figure of how many words they know. The accuracy is probably even less for very advanced learners or native speakers because they are likely to know all the words in this list and then some.
+                Please note that this is mostly just for fun and probably not that accurate, but it should give Korean learners a ballpark figure of how many words they know. The sample size can be adjusted at any time during the quiz using the control below. It defaults to {defaultSampleSize} words; however, it can be increased to improve accuracy or decreased to save time.
               </p>
             </Jumbotron>
           </Col>
@@ -119,6 +154,7 @@ class WordQuiz extends Component {
 
         <Row>
           <Col xs={10} sm={8} md={6}>
+            {sampleSizeSelect}
             <WordTable words={sample}/>
             <hr/>
           </Col>
@@ -128,15 +164,12 @@ class WordQuiz extends Component {
           <Col xs={11} md={10}>
             <h3>Results</h3>
 
-            <p>
-              With some super fuzzy, not-so-scientific logic, that means you know approximately:
-            </p>
-
             <h1>{results.allKnowCount} words</h1>
 
             <p>
-              The words are broken down into groups A, B, C from easiest to hardest,
-              based on the sample above, here is how many you know in each group:
+              The words are broken down into groups A, B, C from easiest to hardest.
+              Hover over the words to see their group designation.
+              Based on the sample above, here is how many you know in each group:
             </p>
 
             <ul>
@@ -146,7 +179,12 @@ class WordQuiz extends Component {
             </ul>
 
             <p>
-              Hover over the words to see their group designation.
+              Results seem inaccurate? Try increasing the sample size:
+            </p>
+
+            {sampleSizeSelect}
+
+            <p>
               Refresh the page to try another random sample.
               Share your results with a friend!
             </p>
