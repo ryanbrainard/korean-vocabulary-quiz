@@ -55,43 +55,57 @@ class WordQuiz extends Component {
     });
   }
 
+  groups() {
+    return ['A', 'B', 'C']
+  }
+
+  groupsZero() {
+    return this.groups().reduce((stats, group) => {
+      return Object.assign({[group]: 0}, stats)
+    }, {})
+  }
+
   calcKnowPerc(words, group) {
     const know = words.filter((word) => word.know && (group === undefined || group === word.group)).length
     const total = (group === undefined ? words : words.filter((word) => word.group === group)).length
+    if (total === 0) {
+      return 0
+    }
     return know / total
   }
 
   calcCountsByGroup(words) {
     return words.reduce((counts, w) => {
+      if (!counts[w.group]) {
+        counts[w.group] = 0
+      }
       counts[w.group] += 1
       return counts
-    }, {A: 0, B: 0, C: 0})
+    }, this.groupsZero())
   }
 
-  calcResults(all, sample) {
+  calcResults(sample) {
+    const all = this.props.words
+
     const allCounts = this.calcCountsByGroup(all)
+
     const sampleCounts = this.calcCountsByGroup(sample)
-    const groups = Object.keys(sampleCounts)
 
-    const sampleKnowPerc = this.calcKnowPerc(sample)
-
-    const sampleKnowPercByGroup = groups.reduce((stats, group) => {
-      return Object.assign({[group]: this.calcKnowPerc(sample, group)}, stats)
+    const sampleKnowPercByGroup = this.groups().reduce((stats, group) => {
+      return Object.assign(stats, {[group]: this.calcKnowPerc(sample, group)})
     }, {})
 
-    const allKnowCountByGroup = groups.reduce((stats, group) => {
-      return Object.assign({[group]: Math.round(sampleKnowPercByGroup[group] * allCounts[group])}, stats)
+    const allKnowCountByGroup = this.groups().reduce((stats, group) => {
+      return Object.assign(stats, {[group]: Math.round(sampleKnowPercByGroup[group] * allCounts[group])})
     }, {})
 
-    const allKnowCount = groups.reduce((count, group) => {
+    const allKnowCount = this.groups().reduce((count, group) => {
       return count + allKnowCountByGroup[group]
     }, 0)
 
     return {
       allCounts,
       sampleCounts,
-      sampleKnowPerc,
-      groups,
       sampleKnowPercByGroup,
       allKnowCountByGroup,
       allKnowCount,
@@ -99,7 +113,7 @@ class WordQuiz extends Component {
   }
 
   render() {
-    const {words, defaultSampleSize, availableSampleSizes} = this.props
+    const {defaultSampleSize, availableSampleSizes} = this.props
     const {candidates, sampleSize} = this.state
     const sample = candidates.slice(0, sampleSize)
 
@@ -123,10 +137,10 @@ class WordQuiz extends Component {
       </FormGroup>
     )
 
-    const results = this.calcResults(words, sample)
+    const results = this.calcResults(sample)
     const resultBreakdown = (group) => {
       return (
-        <li>
+        <li key={group}>
           <strong>Group {group}:</strong>&nbsp;
           {results.allKnowCountByGroup[group]} words =&nbsp;
           {Math.round(results.sampleKnowPercByGroup[group]*100)}% of sample *&nbsp;
@@ -163,32 +177,25 @@ class WordQuiz extends Component {
         <Row>
           <Col xs={11} md={10}>
             <h3>Results</h3>
-
             <h1>{results.allKnowCount} words</h1>
-
             <p>
               The words are broken down into groups A, B, C from easiest to hardest.
               Hover over the words to see their group designation.
               Based on the sample above, here is how many you know in each group:
             </p>
-
             <ul>
-              {resultBreakdown('A')}
-              {resultBreakdown('B')}
-              {resultBreakdown('C')}
+              {
+                this.groups().map(resultBreakdown)
+              }
             </ul>
-
             <p>
               Results seem inaccurate? Try increasing the sample size:
             </p>
-
             {sampleSizeSelect}
-
             <p>
               Refresh the page to try another random sample.
               Share your results with a friend!
             </p>
-
             <div className="a2a_kit a2a_kit_size_24 a2a_default_style">
               {/* eslint-disable */}
               <a className="a2a_button_facebook"></a>
