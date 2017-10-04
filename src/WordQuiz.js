@@ -29,6 +29,8 @@ class WordQuiz extends Component {
       sampleSize,
     };
 
+    this.allCounts = this.calcCountsByGroup(words) // optimization used in calcResults
+
     this.onSampleSizeChange = this.onSampleSizeChange.bind(this);
   }
 
@@ -85,9 +87,7 @@ class WordQuiz extends Component {
   }
 
   calcResults(sample) {
-    const all = this.props.words
-
-    const allCounts = this.calcCountsByGroup(all)
+    const allCounts = this.allCounts // optimization calculated in constructor
 
     const sampleCounts = this.calcCountsByGroup(sample)
 
