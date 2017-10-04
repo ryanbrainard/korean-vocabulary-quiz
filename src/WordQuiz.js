@@ -1,11 +1,18 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Jumbotron, Row, Col} from 'react-bootstrap';
-import {wordsPropType} from './words';
+import {WORDS, wordsPropType} from './words';
 import WordTable from './WordTable';
 
 class WordQuiz extends Component {
   static propTypes = {
-    words: wordsPropType
+    words: wordsPropType,
+    sampleSize: PropTypes.number,
+  }
+
+  static defaultProps = {
+    words: WORDS,
+    sampleSize: 100,
   }
 
   constructor(props, context) {

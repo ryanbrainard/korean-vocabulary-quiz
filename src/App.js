@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import {WORDS} from './words';
 import WordQuiz from './WordQuiz';
 import { Grid } from 'react-bootstrap';
 
@@ -18,10 +17,7 @@ class App extends Component {
         </div>
 
         <Grid>
-          <WordQuiz
-            words={WORDS}
-            sampleSize={100}
-          />
+          <WordQuiz/>
 
           <footer>
             <hr/>
